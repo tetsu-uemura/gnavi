@@ -41,7 +41,7 @@
         if(strcmp($key, "rest") == 0){
             foreach((array)$val as $restArray){
                 $markerData += array((string)$restArray->{'name'} => array('lat' => $restArray->{'latitude'},'lon' => $restArray->{'longitude'},
-                'opentime' => $restArray->{'opentime'}, 'category' => $restArray->{'category'}, 'walk' => $restArray->{'access'}->{'walk'}));
+                'url' => $restArray->{'url'}, 'category' => $restArray->{'category'}, 'walk' => $restArray->{'access'}->{'walk'}));
                 if (checkString($restArray->{'id'})) {
             		    echo $restArray->{'id'};
             		}
@@ -109,6 +109,7 @@
          content: '<div class="sample">' + '<?php echo $key; ?>' + '<br>' +
          '<?php echo $value["walk"]; ?>' + '分' + '<br>'
          + 'カテゴリー：' + '<?php echo (string)$value["category"]; ?>' + '<br>' +
+         '<a href=\"' + '<?php echo $value["url"]; ?>' + '\" target="blank"><?php echo $value["url"]; ?></a>' +
         '</div>' // 吹き出しに表示する内容
        });
      markerEvent(i); // マーカーにクリックイベントを追加
