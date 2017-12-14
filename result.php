@@ -21,6 +21,7 @@
     $lat = $_POST['lat'];
     $lon = $_POST['lon'];
     $range = $_POST['range'];
+    //レスポンスデータの最大件数を指定
     $hit_per_page = 100;
     //リクエストパラメータ
 $url  = sprintf("%s%s%s%s%s%s%s%s%s%s%s%s%s", $uri, "?format=", $format, "&keyid=", $acckey, "&latitude=", $lat,"&longitude=",$lon,"&range=",$range, "&hit_per_page=",$hit_per_page);
