@@ -15,29 +15,30 @@
     <?php
     $uri   = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
     $acckey= "c97bc4330d3d296c5c678662a73f265d";
-    //返却値のフォーマットを変数に入れる
+    //返却値のフォーマットを指定
     $format= "json";
-    //緯度・経度、範囲を変数に入れる。
-    //範囲はrange=1で300m以内を指定。(1:300m、2:500m、3:1000m、4:2000m、5:3000m)
+    //緯度・経度、範囲を受け取る
     $lat = $_POST['lat'];
     $lon = $_POST['lon'];
     $range = $_POST['range'];
-    //URL組み立て
-    $url  = sprintf("%s%s%s%s%s%s%s%s%s%s%s", $uri, "?format=", $format, "&keyid=", $acckey, "&latitude=", $lat,"&longitude=",$lon,"&range=",$range);
-    //API実行
+    //レスポンスデータの最大件数を指定
+    $hit_per_page = 100;
+    //リクエストパラメータ
+    $url  = sprintf("%s%s%s%s%s%s%s%s%s%s%s%s%s", $uri, "?format=", $format, "&keyid=", $acckey, "&latitude=", $lat,"&longitude=",$lon,"&range=",$range, "&hit_per_page=",$hit_per_page);
+    //APIを実行
     $json = file_get_contents($url);
     //取得した結果をオブジェクト化
     $obj  = json_decode($json);
     $markerData = array();
 
     //結果をパース
-    //トータルヒット件数、店舗番号、店舗名、最寄の路線、最寄の駅、最寄駅から店までの時間、店舗の小業態を出力
+    //トータルヒット件数、店舗番号、店舗名、最寄の路線、最寄の駅、最寄駅から店までの時間を出力
 
     foreach((array)$obj as $key => $val){
         if(strcmp($key, "total_hit_count" ) == 0 ){
-            echo "total:".$val."\n";
-          }
-
+            echo "トータルヒット件数:".$val;
+            echo nl2br("\n").nl2br("\n");
+        }
         if(strcmp($key, "rest") == 0){
             foreach((array)$val as $restArray){
                 $markerData += array((string)$restArray->{'name'} => array('lat' => $restArray->{'latitude'},'lon' => $restArray->{'longitude'},
@@ -57,11 +58,6 @@
                 if (checkString($restArray->{'access'}->{'walk'})) {
             		    echo (string)$restArray->{'access'}->{'walk'}."分";
             		}
-
-
-                foreach((array)$restArray->{'code'}->{'category_name_s'} as $v){
-                    if (checkString($v)) echo $v;
-                }
                 echo nl2br("\n");
             }
         }
