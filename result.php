@@ -25,8 +25,6 @@
     $hit_per_page = 100;
     //リクエストパラメータ
 $url  = sprintf("%s%s%s%s%s%s%s%s%s%s%s%s%s", $uri, "?format=", $format, "&keyid=", $acckey, "&latitude=", $lat,"&longitude=",$lon,"&range=",$range, "&hit_per_page=",$hit_per_page);
-//var_dump($url);
-//exit;
     //APIを実行
     $json = file_get_contents($url);
     //取得した結果をオブジェクト化
